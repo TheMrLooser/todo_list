@@ -12,9 +12,9 @@ const SignUp =async (req,res,next)=>{
         }
 
         const hash = await bcrypt.hash(req.body.password,10)
-        const newUser = new userSchema({...req.body,password:hash})
-        const token = jwt.sign({id:newUser.phone},process.env.SECRET_KEY)
+        const token = jwt.sign({id:req.body.phone},process.env.SECRET_KEY)
         res.cookie("access_token",token,{httpOnly:true}).status(200)
+        const newUser = new userSchema({...req.body,password:hash,token:token})
         await newUser.save();
         res.status(200).send("user is created" ) 
     } catch (error) {
@@ -35,6 +35,7 @@ const SignIn = async (req,res,next)=>{
     }
     const token = jwt.sign({id:user.phone},process.env.SECRET_KEY)
     res.cookie("access_token",token,{httpOnly:true}).status(200)
+    await userSchema.findByIdAndUpdate(user._id,{$set:{token:token}})
     const {password,...others} = user._doc
     res.status(200).send(others);
 }

@@ -13,7 +13,10 @@ height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
-background-color:#151027;
+background-color:#0b022c;
+color:white;
+font-family:proximanova-regular-webfont,Arial,sans-serif;
+
 `
 const Wrapper = styled.div `
 display:flex;
@@ -40,7 +43,8 @@ width:50%;
 `
 const Hr = styled.hr`
 width:50%;
-
+margin-top:20px;
+margin-bottom:20px
 `
 
 const TodoContainer = styled.div`
@@ -74,7 +78,7 @@ const  Home = ()=>{
     const [desc,setDesc] = useState("")
     useEffect(()=>{
         const fetchData =  async ()=>{
-            const data = await axios.get(`/api/v1/todo`)
+            const data = await axios.get(`/api/v1/yourtodo`) 
             settodo(data.data)
         } 
         fetchData()
@@ -82,7 +86,7 @@ const  Home = ()=>{
 
     const sendData = async ()=>{
         const addTodo = await axios.post(`/api/v1/todo/new`,{heading,desc})
-        const data = await axios.get(`/api/v1/todo`)
+        const data = await axios.get(`/api/v1/yourtodo`)
         settodo(data.data)
     }
    

@@ -17,7 +17,8 @@ const DataSchema = new mongoose.Schema({
     status:{
         type:String,
         default:"Not Completed"
-    }
+    },
+    userId:String 
 
 
 
